@@ -21,8 +21,9 @@ class Table extends Component {
   }
 
   modifyData(res) {
+    // modify plain text response to usable data
     const response = res
-      .replace(/{|}|\[|]|"|"|:|(name)|(img)|\s/g, "")
+      .replace(/{|}|\[|]|"|"|:|(name)|(img)|\s/g, "").replace(/https/g, 'https:')
       .split(",");
 
     const names = [],
@@ -35,7 +36,6 @@ class Table extends Component {
         imagesArr.push(response[i]);
       }
     }
-
     names.pop();
     const images = imagesArr.map(image => {
       return image.substring(0, image.length - 1);
@@ -50,6 +50,7 @@ class Table extends Component {
     if (isLoading) {
       return <p>Loading ...</p>;
     }
+
     return (
       <table>
         <tbody>
@@ -60,7 +61,7 @@ class Table extends Component {
           </tr>
           <tr>
             {images.map(image => (
-              <td key={image}>{image}</td>
+              <td key={image}><img alt={image} src={image}/></td>
             ))}
           </tr>
         </tbody>
